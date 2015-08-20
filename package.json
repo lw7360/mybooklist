@@ -1,0 +1,28 @@
+{
+  "name": "mybooklist",
+  "version": "0.0.0",
+  "description": "Keep track of the books you read.",
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lw7360/mybooklist.git"
+  },
+  "author": "Larry Wu <lw7360@gmail.com> (http://larrywu.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lw7360/mybooklist/issues"
+  },
+  "homepage": "https://github.com/lw7360/mybooklist#readme",
+  "dependencies": {
+    "express": "~4.9.0",
+    "body-parser": "~1.8.1",
+    "cookie-parser": "~1.3.3",
+    "morgan": "~1.3.0",
+    "serve-favicon": "~2.1.3",
+    "debug": "~2.0.0",
+    "jade": "~1.6.0"
+  }
+}
