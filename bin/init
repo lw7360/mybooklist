@@ -10,6 +10,6 @@ npm install
 
 # Postgres
 sudo apt-get update
-sudo apt-get install postgresql postgresql-contrib
+sudo apt-get install -q -y postgresql postgresql-contrib
 
 source ~/.bashrc
