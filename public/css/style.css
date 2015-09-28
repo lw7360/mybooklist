@@ -1,8 +1,81 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 23px;
+  background-color: #fbfbfb;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  font-family: 'Lato', sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #333;
+}
+
+a:focus, a:hover {
+  color: #333;
+}
+
+a:focus {
+  text-decoration: none;
+}
+
+p {
+  font-size: 17px;
+  line-height: 27px;
+}
+
+/* LogoNav */
+.rightNav {
+  padding-top: 22px;
+  padding-bottom: 15px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+/* BookCard */
+
+.bookCard {
+  padding: 15px;
+/*   position: relative; */
+/*   overflow: auto; */
+  margin: 0.5rem 0 1rem 0;
+  transition: box-shadow .25s;
+  border-radius: 2px;
+}
+
+.bookCardCover {
+  /* max-width: 150px; */
+  /* height: ; */
+}
+
+.bookTitle {
+  font-weight: 700;
+  font-size: 40px;
+}
+
+.bookAuthor {
+  font-weight: 200;
+  font-size: 33px;
+}
+
+.bookRating {
+  margin-right: 20px;
+  width: 44px;
+  height: 44px;
+}
+
+.btn-flat {
+  filter:progid:DXImageTransform.Microsoft.Gradient(enabled='false');
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background-image: none;
+  background-color: #fbfbfb;
+}
+
+.bookAdd {
+  margin-top: 5px;
 }
