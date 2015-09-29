@@ -1,16 +1,76 @@
-import ecstatic from 'ecstatic';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import http from 'http';
+import passport from 'passport';
+import { Strategy } from 'passport-local';
+const LocalStrategy = Strategy;
+import uuid from 'node-uuid';
 
-let app = express();
+const app = express();
 app.locals.settings['x-powered-by'] = false;
-let port = process.env.PORT || 9991;
-app.use(ecstatic({ root: __dirname + '/public', handleError: false }));
+const port = process.env.PORT || 9991;
+app.use(express.static('public'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
+
+// App
+app.get('/search', function (req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/search/*', function (req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
 app.get('/books', function (req, res) {
   res.redirect('/search');
 });
+
 app.get('/books/*', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 });
+
+app.get('/list', function (req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/list/*', function (req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+// Passport config
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    const id = uuid.v4();
+    return done(null, { id });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+// Login
+app.post('/login',
+  passport.authenticate('local'),
+  function (req, res) {
+    res.redirect('/');
+  }
+)
+
+app.get('/login', function (req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+// API
+
 http.createServer(app).listen(port);
 console.log('Listening on :' + port);

@@ -1,10 +1,17 @@
 import React from 'react';
-import Index from './home/Index.jsx';
-import BookCard from './BookCard.jsx';
+import Home from './home/Home.jsx';
+import Book from './books/Book.jsx';
 import StickyFooter from './StickyFooter.jsx';
+import localStore from 'store';
 
 class App extends React.Component {
   componentWillMount () {
+    if (localStore.get('redirect')) { // Check for redirect
+      let redirect = localStore.get('redirect');
+      localStore.remove('redirect');
+      window.location.pathname = redirect;
+    }
+
     const { store } = this.props;
     window.addEventListener('popstate', () => {
       store.dispatch({type: 'URL', pathname: window.location.pathname});
@@ -20,26 +27,20 @@ class App extends React.Component {
   render () {
     const { store } = this.props;
     const curPath = store.getState().routing.get('URL');
-    
-    switch (curPath) {
-    case '/':
-      return <div>
-        <div className='container'>
-          <Index store={store} />
-        </div>
-        <StickyFooter />
-      </div>;
-    default:
-      return <div>
-        <div className='container'>
-          <Index store={store} />
-          <BookCard isbn="9780804139021" />
-        </div>
-        <StickyFooter />
-      </div>;
+
+    if (curPath === '/') {
+      return <Home store={store} />;
+    } else if (curPath.startsWith('/books/')) {
+      const isbn = window.location.pathname.split('/').pop();
+      return <Book store={store} isbn={isbn} />
+    } else if (curPath === '/search') {
+      return <Home store={store} />
+    } else if (curPath.startsWith('/search/')) {
+      return <Home store={store} />
+    } else { // Should probably 404
+      return <Home store={store} />
     }
   }
 }
-
 
 export default App;

@@ -18,7 +18,7 @@ class BookCard extends React.Component {
           this.setState(body);
         }
       }.bind(this));
-    }.bind(this), 2000)
+    }.bind(this), 0)
   }
   render () {
     let options = {
