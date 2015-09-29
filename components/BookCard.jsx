@@ -28,7 +28,8 @@ class BookCard extends React.Component {
     if (this.state.loading) {
       return <div className="bookCard"></div>
     } else {
-      return <div className="bookCard">
+      this.props.done();
+      return <div className="bookCard animated fadeIn">
         <div className="row">
           <div className="col-sm-4"><img className="bookCardCover img-responsive img-thumbnail" src={this.state.cover}/>
             <br />

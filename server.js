@@ -62,7 +62,7 @@ passport.deserializeUser(function(user, done) {
 app.post('/login',
   passport.authenticate('local'),
   function (req, res) {
-    res.redirect('/');
+    // res.redirect('/');
   }
 )
 

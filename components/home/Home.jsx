@@ -5,7 +5,8 @@ import StickyFooter from '../StickyFooter.jsx';
 
 class Index extends React.Component {
   render () {
-    const { store } = this.props;
+    const { store, done } = this.props;
+    done();
     return <div>
       <div className='container'>
         <LogoNav store={store} />

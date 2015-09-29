@@ -5,10 +5,11 @@ import StickyFooter from '../StickyFooter.jsx';
 
 class Book extends React.Component {
   render () {
+    const { store, isbn, done } = this.props;
     return <div>
       <div className='container'>
-        <LogoNav store={this.props.store} />
-        <BookCard store={this.props.store} isbn={this.props.isbn} />
+        <LogoNav store={store} />
+        <BookCard store={store} isbn={isbn} done={done}/>
       </div>
       <StickyFooter />
     </div>

@@ -10,7 +10,7 @@
   "scripts": {
     "build": "NODE_ENV=production browserify main.js | uglifyjs -cm > public/bundle.js",
     "start": "babel-node server.js",
-    "watch": "watchify -g main.js -o public/bundle.js -dv",
+    "watch": "watchify main.js -o public/bundle.js -dv",
     "test": "semistandard"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "greatreads": "0.0.1",
     "immutable": "^3.7.5",
     "node-uuid": "^1.4.3",
+    "nprogress": "^0.2.0",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "pg": "^4.4.2",
@@ -41,7 +42,6 @@
     "react-internal-nav": "^1.0.0",
     "react-redux": "^3.0.0",
     "redux": "^3.0.2",
-    "store": "^1.3.17",
     "uglify-js": "^2.4.24",
     "watchify": "^3.2.3",
     "xhr": "^2.1.0"
