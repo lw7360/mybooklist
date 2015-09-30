@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import http from 'http';
+import https from 'https';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 const LocalStrategy = Strategy;
@@ -94,4 +95,5 @@ app.get('/register', function (req, res) {
 // API
 
 http.createServer(app).listen(port);
+// https.createServer(options, app).listen(443);
 console.log('Listening on :' + port);
