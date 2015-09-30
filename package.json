@@ -33,6 +33,7 @@
     "browserify": "^10.2.6",
     "cookie-parser": "^1.4.0",
     "express": "^4.13.3",
+    "googleapis": "^2.1.5",
     "greatreads": "0.0.1",
     "immutable": "^3.7.5",
     "node-uuid": "^1.4.3",

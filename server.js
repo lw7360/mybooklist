@@ -93,6 +93,22 @@ app.get('/register', function (req, res) {
 });
 
 // API
+app.post('/search', function(req, res) {
+  let options = {
+    key: process.env.GOOGLE_BOOKS,
+    field: 'title',
+    limit: 10,
+    type: 'books'
+  }
+  books.search(req.body.title, options, function (error, results) {
+    if (error) {
+      res.end();
+    } else {
+      console.log(results);
+      res.send(results);
+    }
+  });
+});
 
 http.createServer(app).listen(port);
 // https.createServer(options, app).listen(443);
