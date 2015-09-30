@@ -22,9 +22,17 @@ a:focus {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 p {
   font-size: 17px;
   line-height: 27px;
+}
+
+p a {
+  font-weight: 700;
 }
 
 /* LogoNav */
