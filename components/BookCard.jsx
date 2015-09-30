@@ -1,6 +1,7 @@
+import axios from 'axios';
 import { Circle } from '@lw7360/react-progressbar.js';
+import Promise from 'bluebird';
 import React from 'react';
-import xhr from 'xhr';
 
 class BookCard extends React.Component {
   constructor(props) {
@@ -8,17 +9,13 @@ class BookCard extends React.Component {
     this.state = {loading: true}
   }
   componentDidMount() {
-    setTimeout(function() {
-      xhr({
-        url: '/sample.json',
-        responseType: 'json',
-      }, function(err, resp, body) {
-        if (resp.statusCode === 200) {
-          body.loading = false;
-          this.setState(body);
+    axios.get('/sample.json')
+      .then(function (response) {
+        if (response.status === 200) {
+          response.data.loading = false;
+          this.setState(response.data);
         }
       }.bind(this));
-    }.bind(this), 0)
   }
   render () {
     let options = {

@@ -35,7 +35,11 @@ app.get('/books/*', function (req, res) {
 });
 
 app.get('/list', function (req, res) {
-  res.sendFile(__dirname + '/public/index.html');
+  if (req.user) {
+    res.sendFile(__dirname + '/public/index.html');
+  } else {
+    res.redirect('/login');
+  }
 });
 
 app.get('/list/*', function (req, res) {
@@ -51,22 +55,39 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function(user, done) {
-  done(null, user);
+  done(null, {id: user});
 });
 
 // Login
 app.post('/login',
   passport.authenticate('local'),
   function (req, res) {
-    // res.redirect('/');
+    res.redirect('/user');
   }
 )
 
 app.get('/login', function (req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/user', function (req, res) {
+  if (req.user) { // logged in
+    res.send(req.user);
+  } else { // not logged in
+    res.status(418).end();
+  }
+});
+
+// User Registration
+app.post('/register', function (req, res) {
+  res.send('not implemented yet...');
+});
+
+app.get('/register', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
 });
 

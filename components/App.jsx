@@ -6,12 +6,6 @@ import NProgress from 'nprogress';
 
 class App extends React.Component {
   componentWillMount () {
-    // if (localStore.get('redirect')) { // Check for redirect
-    //   let redirect = localStore.get('redirect');
-    //   localStore.remove('redirect');
-    //   window.location.pathname = redirect;
-    // }
-
     const { store } = this.props;
     window.addEventListener('popstate', () => {
       store.dispatch({type: 'URL', pathname: window.location.pathname});
