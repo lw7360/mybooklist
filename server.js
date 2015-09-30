@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import googlebooks from './lib/googlebooks.js';
 import express from 'express';
 import http from 'http';
 import https from 'https';
@@ -93,20 +94,12 @@ app.get('/register', function (req, res) {
 });
 
 // API
-app.post('/search', function(req, res) {
-  let options = {
-    key: process.env.GOOGLE_BOOKS,
-    field: 'title',
-    limit: 10,
-    type: 'books'
-  }
-  books.search(req.body.title, options, function (error, results) {
-    if (error) {
-      res.end();
-    } else {
-      console.log(results);
-      res.send(results);
-    }
+const books = googlebooks(process.env.GOOGLE_BOOKS);
+app.get('/api/v1/search', function(req, res) {
+  books(req.body.title).then((results) => {
+    res.send(results[0].items);
+  }).error((error) => {
+    res.end();
   });
 });
 
