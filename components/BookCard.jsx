@@ -28,7 +28,7 @@ class BookCard extends React.Component {
       this.props.done();
       return <div className="bookCard animated fadeIn">
         <div className="row">
-          <div className="col-sm-4"><img className="bookCardCover img-responsive img-thumbnail" src={this.state.cover}/>
+          <div className="col-sm-4"><img className="bookCardCover img-responsive img-thumbnail" width="280" src={this.state.cover} />
             <br />
             <br />
             <Circle

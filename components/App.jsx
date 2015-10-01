@@ -2,7 +2,7 @@ import React from 'react';
 import InternalNav from 'react-internal-nav';
 import Home from './home/Home.jsx';
 import Book from './books/Book.jsx';
-import StickyFooter from './StickyFooter.jsx';
+import Search from './search/Search.jsx';
 import NProgress from 'nprogress';
 
 class App extends React.Component {
@@ -11,14 +11,14 @@ class App extends React.Component {
     window.addEventListener('popstate', () => {
       store.dispatch({type: 'URL', pathname: window.location.pathname});
     });
-    // running it once on load
-    store.dispatch({type: 'URL', pathname: window.location.pathname});
-
     store.subscribe(() => {
-      console.log(store.getState())
+      console.log(store.getState());
       NProgress.start();
       this.forceUpdate();
     });
+
+    // running it once on load
+    store.dispatch({type: 'URL', pathname: window.location.pathname});
   }
   onInternalNav (pathname) {
     if (pathname !== window.location.pathname) {
@@ -42,11 +42,11 @@ class App extends React.Component {
        </InternalNav>
     } else if (curPath === '/search') {
       return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
-        <Home store={store} done={done} />
+        <Search store={store} done={done} />
        </InternalNav>
     } else if (curPath.startsWith('/search/')) {
       return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
-      	<Home store={store} done={done} />
+        <Search store={store} done={done} />
       </InternalNav>
     } else { // Should probably 404
       return <div>404</div>
