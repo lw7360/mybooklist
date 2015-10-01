@@ -8,7 +8,7 @@ class Book extends React.Component {
     const { store, isbn, done } = this.props;
     return <div>
       <div className='container'>
-        <LogoNav store={store} />
+        <LogoNav />
         <BookCard store={store} isbn={isbn} done={done}/>
       </div>
       <StickyFooter />

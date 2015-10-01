@@ -96,7 +96,7 @@ app.get('/register', function (req, res) {
 // API
 const books = googlebooks(process.env.GOOGLE_BOOKS);
 app.get('/api/v1/search', function(req, res) {
-  books(req.body.title).then((results) => {
+  books(req.query.title).then((results) => {
     res.send(results[0].items);
   }).error((error) => {
     res.end();

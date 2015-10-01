@@ -1,4 +1,5 @@
 import React from 'react';
+import InternalNav from 'react-internal-nav';
 import Home from './home/Home.jsx';
 import Book from './books/Book.jsx';
 import StickyFooter from './StickyFooter.jsx';
@@ -15,26 +16,40 @@ class App extends React.Component {
 
     store.subscribe(() => {
       console.log(store.getState())
+      NProgress.start();
       this.forceUpdate();
     });
   }
+  onInternalNav (pathname) {
+    if (pathname !== window.location.pathname) {
+      window.history.pushState({}, '', pathname);
+    }
+    const { store } = this.props;
+    store.dispatch({type: 'URL', pathname: window.location.pathname});
+  }
   render () {
-    NProgress.start();
     const done = () => NProgress.done();
     const { store } = this.props;
     const curPath = store.getState().routing.get('URL');
-
     if (curPath === '/') {
-      return <Home store={store} done={done} />;
+      return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
+      	<Home store={store} done={done} />
+      </InternalNav>;
     } else if (curPath.startsWith('/books/')) {
       const isbn = window.location.pathname.split('/').pop();
-      return <Book store={store} isbn={isbn} done={done} />
+      return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
+        <Book store={store} isbn={isbn} done={done} />
+       </InternalNav>
     } else if (curPath === '/search') {
-      return <Home store={store} done={done} />
+      return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
+        <Home store={store} done={done} />
+       </InternalNav>
     } else if (curPath.startsWith('/search/')) {
-      return <Home store={store} done={done} />
+      return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
+      	<Home store={store} done={done} />
+      </InternalNav>
     } else { // Should probably 404
-      return <Home store={store} done={done} />
+      return <div>404</div>
     }
   }
 }

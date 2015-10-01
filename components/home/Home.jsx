@@ -1,23 +1,15 @@
 import React from 'react';
 import CascadingBooks from './CascadingBooks.jsx';
-import InternalNav from 'react-internal-nav';
 import LogoNav from '../LogoNav.jsx';
 import StickyFooter from '../StickyFooter.jsx';
 
 class Index extends React.Component {
-  onInternalNav(pathname) {
-    if (pathname !== window.location.pathname) {
-      window.history.pushState({}, '', pathname);
-      const { store } = this.props;
-      store.dispatch({type: 'URL', pathname: window.location.pathname});
-    }
-  }
   render () {
     const { store, done } = this.props;
     done();
-    return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
+    return <div>
       <div className='container'>
-        <LogoNav store={store} />
+        <LogoNav />
         <br />
         <p>
           Keep track of the books you read.
@@ -28,7 +20,7 @@ class Index extends React.Component {
         <CascadingBooks />
       </div>
       <StickyFooter />
-    </InternalNav>
+    </div>
   }
 }
 
