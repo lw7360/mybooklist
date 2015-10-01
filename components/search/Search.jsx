@@ -27,7 +27,7 @@ class Search extends React.Component {
     this.performSearch(query);
   }
   componentWillMount() {
-    const query = decodeURI(window.location.pathname.split('/')[2]);
+    const query = decodeURI(window.location.pathname.split('/')[2] || '');
     if (query) {
       this.setState({value: query});
       this.performSearch(query);
