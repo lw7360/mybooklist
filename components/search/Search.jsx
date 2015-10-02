@@ -50,7 +50,6 @@ class Search extends React.Component {
       });
   }
   render () {
-    console.log('erryday im rendering');
     return <div>
       <div className='container'>
         <LogoNav />

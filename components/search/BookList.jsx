@@ -2,7 +2,6 @@ import React from 'react';
 
 class BookList extends React.Component {
   render () {
-    console.log('i am also renderinggggg')
     if (!this.props.books) {
       return <div></div>
     }
