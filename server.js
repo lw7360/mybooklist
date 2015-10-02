@@ -97,7 +97,21 @@ app.get('/register', function (req, res) {
 const books = googlebooks(process.env.GOOGLE_BOOKS);
 app.get('/api/v1/search', function(req, res) {
   books(req.query.title).then((results) => {
-    res.send(results[0].items);
+    let bookData = results[0].items;
+    let resultData = [];
+
+    for (let i = 0; i < bookData.length; i++) {
+      let curBook = bookData[i];
+      let resData = {
+        id: curBook.id,
+        title: curBook.volumeInfo.title,
+        authors: curBook.volumeInfo.authors,
+        publishedDate: curBook.volumeInfo.publishedDate.split('-').shift(),
+      };
+      resultData.push(resData);
+    }
+    
+    res.send(resultData);
   }).error((error) => {
     res.end();
   });

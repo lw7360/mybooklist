@@ -9,15 +9,12 @@ class BookList extends React.Component {
     let bookLinks = [];
     let books = this.props.books;
     for (let i = 0; i < books.length; i++) {
-      try {
-        let curBook = books[i].volumeInfo;
-        let title = curBook.title;
-        let author = curBook.authors.shift();
-        // let pageCount = curBook.pageCount;
-        let publishedDate = curBook.publishedDate;
-        let isbn = curBook.industryIdentifiers.pop().identifier;
-        bookLinks.push(<a href={'/books/' + isbn} key={isbn} className='list-group-item'><strong>{title}</strong>, by {author}. {publishedDate}</a>);
-      } catch (e) {}
+      let curBook = books[i];
+      let id = curBook.id;
+      let title = curBook.title;
+      let author = curBook.authors.shift();
+      let publishedDate = curBook.publishedDate;
+      bookLinks.push(<a href={'/books/' + id} key={id} className='list-group-item'><strong>{title}</strong>, by {author}. {publishedDate}</a>);
     }
     return <div>
       <div className="list-group">
