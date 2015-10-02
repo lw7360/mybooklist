@@ -35,9 +35,9 @@ class App extends React.Component {
       	<Home store={store} done={done} />
       </InternalNav>;
     } else if (curPath.startsWith('/books/')) {
-      const isbn = window.location.pathname.split('/').pop();
+      const id = window.location.pathname.split('/').pop();
       return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
-        <Book store={store} isbn={isbn} done={done} />
+        <Book store={store} id={id} done={done} />
        </InternalNav>
     } else if (curPath === '/search') {
       return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>

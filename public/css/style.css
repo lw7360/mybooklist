@@ -54,11 +54,6 @@ p a {
   border-radius: 2px;
 }
 
-.bookCardCover {
-  /* max-width: 150px; */
-  /* height: ; */
-}
-
 .bookTitle {
   font-weight: 700;
   font-size: 40px;
@@ -73,6 +68,10 @@ p a {
   margin-right: 20px;
   width: 44px;
   height: 44px;
+}
+
+.bookInfo {
+  font-weight: 400;
 }
 
 .btn-flat {

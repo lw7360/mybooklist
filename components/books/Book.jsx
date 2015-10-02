@@ -1,15 +1,15 @@
 import React from 'react';
-import BookCard from '../BookCard.jsx';
+import BookCard from './BookCard.jsx';
 import LogoNav from '../LogoNav.jsx';
 import StickyFooter from '../StickyFooter.jsx';
 
 class Book extends React.Component {
   render () {
-    const { store, isbn, done } = this.props;
+    const { store, id, done } = this.props;
     return <div>
       <div className='container'>
         <LogoNav />
-        <BookCard store={store} isbn={isbn} done={done}/>
+        <BookCard store={store} id={id} done={done}/>
       </div>
       <StickyFooter />
     </div>

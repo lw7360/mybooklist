@@ -9,11 +9,22 @@ class BookCard extends React.Component {
     this.state = {loading: true}
   }
   componentDidMount() {
-    axios.get('/sample.json')
+    const id = this.props.id;
+    axios.get('/api/v1/book', { params: { id } })
       .then(function (response) {
         if (response.status === 200) {
-          response.data.loading = false;
-          this.setState(response.data);
+          let info = response.data[0].volumeInfo;
+          let data = {};
+          data.title = info.title;
+          data.author = info.authors[0];
+          data.rating = info.averageRating;
+          data.pages = info.pageCount;
+          data.published = info.publishedDate.substring(0, 4);
+          data.cover = info.imageLinks.thumbnail || info.imageLinks.smallThumbnail;
+          data.description = info.description;
+
+          data.loading = false;
+          this.setState(data);
         }
       }.bind(this));
   }
@@ -60,6 +71,10 @@ class BookCard extends React.Component {
               <span className="bookAuthor">, by {this.state.author}</span>
             </span>
             <hr />
+            <div className='bookInfo'>
+              {this.state.pages} pages. Published in {this.state.published}.
+            </div>
+            <br />
             <div className="bookDescription">
               <div dangerouslySetInnerHTML={{__html: this.state.description}} />
             </div>
