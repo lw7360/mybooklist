@@ -12,7 +12,6 @@ class App extends React.Component {
       store.dispatch({type: 'URL', pathname: window.location.pathname});
     });
     store.subscribe(() => {
-      console.log(store.getState());
       NProgress.start();
       this.forceUpdate();
     });

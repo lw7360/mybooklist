@@ -5,7 +5,6 @@ class BookList extends React.Component {
     if (!this.props.books) {
       return <div></div>
     }
-    console.log(this.props.books);
     let bookLinks = [];
     let books = this.props.books;
     for (let i = 0; i < books.length; i++) {
