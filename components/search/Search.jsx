@@ -23,6 +23,9 @@ class Search extends React.Component {
   }
   handleSearch () {
     const query = document.querySelector('#searchField').value;
+    this.setState({
+      books: null
+    });
     this.setSearchState(query);
     this.performSearch(query);
   }
@@ -47,6 +50,7 @@ class Search extends React.Component {
       });
   }
   render () {
+    console.log('erryday im rendering');
     return <div>
       <div className='container'>
         <LogoNav />

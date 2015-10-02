@@ -2,6 +2,7 @@ import React from 'react';
 
 class BookList extends React.Component {
   render () {
+    console.log('i am also renderinggggg')
     if (!this.props.books) {
       return <div></div>
     }
@@ -16,7 +17,7 @@ class BookList extends React.Component {
         // let pageCount = curBook.pageCount;
         let publishedDate = curBook.publishedDate;
         let isbn = curBook.industryIdentifiers.pop().identifier;
-        bookLinks.push(<a href={'/books/' + isbn} key={i} className='list-group-item'><strong>{title}</strong>, by {author}. {publishedDate}</a>);
+        bookLinks.push(<a href={'/books/' + isbn} key={isbn} className='list-group-item'><strong>{title}</strong>, by {author}. {publishedDate}</a>);
       } catch (e) {}
     }
     return <div>
