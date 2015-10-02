@@ -95,8 +95,17 @@ app.get('/register', function (req, res) {
 
 // API
 const books = googlebooks(process.env.GOOGLE_BOOKS);
-app.get('/api/v1/search', function(req, res) {
-  books(req.query.title).then((results) => {
+
+app.get('/api/v1/book', function (req, res) {
+  books.get(req.query.id).then((results) => {
+    res.send(results);
+  }).error((error) => {
+    res.end();
+  });
+});
+
+app.get('/api/v1/search', function (req, res) {
+  books.list(req.query.title).then((results) => {
     let bookData = results[0].items;
     let resultData = [];
 
