@@ -5,11 +5,11 @@ import React from 'react';
 import ButtonGroup from './ButtonGroup.jsx';
 
 class BookCard extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {loading: true}
   }
-  componentDidMount() {
+  componentWillMount () {
     const id = this.props.id;
     axios.get('/api/v1/book', { params: { id } })
       .then(function (response) {
@@ -20,6 +20,7 @@ class BookCard extends React.Component {
             data.title = info.title;
             document.title = data.title || 'MyBookList';
             data.author = info.authors[0];
+            data.authors = info.authors;
             data.rating = info.averageRating;
             data.pages = info.pageCount;
             data.published = info.publishedDate.substring(0, 4);
@@ -28,6 +29,9 @@ class BookCard extends React.Component {
 
             data.loading = false;
             this.setState(data);
+            window.requestAnimationFrame(function() {
+              $.bigfoot();
+            });
             } else {
               this.setState({ loading: false, foundBook: false });
             }
@@ -44,6 +48,10 @@ class BookCard extends React.Component {
     } else if (this.state.foundBook === false) {
       return <div>Couldn't find book with id: {this.props.id}</div>
     } else {
+      let authors = [];
+      for (let i = 0; i < this.state.authors.length; i++) {
+authors.push(<p>{this.state.authors[i]}</p>);
+      }
       this.props.done();
       return <div className="bookCard animated fadeIn">
         <div className="row">
@@ -64,6 +72,16 @@ class BookCard extends React.Component {
           <div className="col-sm-8">
             <span className="bookTitle">{this.state.title} 
               <span className="bookAuthor">, by {this.state.author}</span>
+              <span style={{marginLeft: '8px'}}>
+                <sup id="fnref:1">
+                  <a href="#fn:1" rel="footnote">1</a>
+                </sup>
+              </span>
+              <div className="footnotes"><ol>
+                <li className="footnote" id="fn:1">
+                  <p>{authors}<a href="#fnref:1" title="return to article"> </a></p>
+                </li>
+              </ol></div>
             </span>
             <hr />
             <div className='bookInfo'>
