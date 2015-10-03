@@ -5,6 +5,7 @@ import StickyFooter from '../StickyFooter.jsx';
 
 class Index extends React.Component {
   render () {
+    document.title = 'MyBookList';
     const { store, done, loggedin } = this.props;
     done();
     if (loggedin) {

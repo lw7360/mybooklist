@@ -17,8 +17,8 @@ class App extends React.Component {
     });
     store.subscribe(() => {
       if (store.getState().routing.get('LASTACTION') === 'URL') {
-        this.forceUpdate();
         NProgress.start();
+        this.forceUpdate();
       }
     });
 
@@ -50,7 +50,7 @@ class App extends React.Component {
     if (this.state.loggedin === 'unsure') {
       return <div></div>
     }
-    const done = () => NProgress.done();
+    let done = () => NProgress.done();
     const { store } = this.props;
     const curPath = store.getState().routing.get('URL');
     if (curPath === '/') {
@@ -60,7 +60,7 @@ class App extends React.Component {
     } else if (curPath.startsWith('/books/')) {
       const id = window.location.pathname.split('/').pop();
       return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
-        <Book store={store} id={id} done={done} />
+        <Book store={store} id={id} done={done} loggedin={this.state.loggedin} />
        </InternalNav>
     } else if (curPath === '/search') {
       return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
