@@ -72,7 +72,7 @@ authors.push(<p key={i}>{this.state.authors[i]}</p>);
           <div className="col-sm-8">
             <span className="bookTitle">{this.state.title} 
               <span className="bookAuthor">, by {this.state.author}</span>
-              <span style={{marginLeft: '8px'}}>
+              <span style={{marginLeft: '5px'}}>
                 <sup id="fnref:1">
                   <a href="#fn:1" rel="footnote">1</a>
                 </sup>
