@@ -50,7 +50,7 @@ class BookCard extends React.Component {
     } else {
       let authors = [];
       for (let i = 0; i < this.state.authors.length; i++) {
-authors.push(<p key={i}>{this.state.authors[i]}</p>);
+        authors.push(<p key={i}>{this.state.authors[i]}</p>);
       }
       this.props.done();
       return <div className="bookCard animated fadeIn">
@@ -72,7 +72,12 @@ authors.push(<p key={i}>{this.state.authors[i]}</p>);
           <div className="col-sm-8">
             <span className="bookTitle">{this.state.title} 
               <span className="bookAuthor">, by {this.state.author}</span>
-              <span style={{marginLeft: '5px'}}>
+
+              {() => {
+              if (authors.length === 1) {
+                return;
+              }
+              return <div><span style={{marginLeft: '5px'}}>
                 <sup id="fnref:1">
                   <a href="#fn:1" rel="footnote">1</a>
                 </sup>
@@ -81,7 +86,9 @@ authors.push(<p key={i}>{this.state.authors[i]}</p>);
                 <li className="footnote" id="fn:1">
                   <p>{authors}<a href="#fnref:1" title="return to article"> </a></p>
                 </li>
-              </ol></div>
+              </ol></div></div>
+              }()}
+
             </span>
             <hr />
             <div className='bookInfo'>
