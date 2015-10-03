@@ -50,7 +50,7 @@ class BookCard extends React.Component {
     } else {
       let authors = [];
       for (let i = 0; i < this.state.authors.length; i++) {
-authors.push(<p>{this.state.authors[i]}</p>);
+authors.push(<p key={i}>{this.state.authors[i]}</p>);
       }
       this.props.done();
       return <div className="bookCard animated fadeIn">
