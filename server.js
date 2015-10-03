@@ -5,6 +5,8 @@ import express from 'express';
 import http from 'http';
 import https from 'https';
 import passport from 'passport';
+import register from './lib/register.js';
+import cookieSession from 'cookie-session';
 import { Strategy } from 'passport-local';
 const LocalStrategy = Strategy;
 import uuid from 'node-uuid';
@@ -16,6 +18,10 @@ app.use(express.static('public'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieSession({ 
+  name: 'MyBookList',
+  secret: process.env.SESSION_SECRET || 'keyboard cat'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -60,15 +66,15 @@ passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
-  done(null, {id: user});
+passport.deserializeUser(function(id, done) {
+  done(null, {id});
 });
 
 // Login
 app.post('/login',
   passport.authenticate('local'),
   function (req, res) {
-    res.redirect('/user');
+    res.send('success');
   }
 )
 
@@ -78,15 +84,24 @@ app.get('/login', function (req, res) {
 
 app.get('/user', function (req, res) {
   if (req.user) { // logged in
-    res.send(req.user);
+    res.send(true);
   } else { // not logged in
-    res.status(418).end();
+    res.send(false);
   }
+});
+
+app.post('/logout', function (req, res) {
+  req.session = null;
+  res.send(true);
 });
 
 // User Registration
 app.post('/register', function (req, res) {
-  res.send('not implemented yet...');
+  register(req.body).then(function (results) {
+    res.send(results);
+  }).error(function (error) {
+    res.send(error);
+  });
 });
 
 app.get('/register', function (req, res) {

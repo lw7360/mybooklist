@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 function routing(state = Immutable.Map(), action) {
   switch (action.type) {
   case 'URL':
-    return state.set('URL', action.pathname);
+    return state.set('URL', action.pathname).set('LASTACTION', 'URL');
   default:
     return state;
   }
