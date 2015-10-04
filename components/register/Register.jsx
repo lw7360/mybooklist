@@ -3,7 +3,12 @@ import React from 'react';
 import LogoNav from '../LogoNav.jsx';
 
 class Register extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {};
+  }
   handleSubmit (e) {
+    this.setState({});
     e.preventDefault();
     let username = React.findDOMNode(this.refs.username).value.trim();
     let email = React.findDOMNode(this.refs.email).value.trim();
@@ -17,7 +22,17 @@ class Register extends React.Component {
 
     axios.post('/register', params).then(function (response) {
       console.log(response);
-    });
+      let data = response.data;
+      if (data.error) {
+        this.setState({error: data.message});
+      } else {
+        axios.post('/login', params).then(function (response) {
+          if (response.data) {
+            localStore.set('loggedin', true);
+          }
+        });
+      }
+    }.bind(this));
 
   }
   render () {
@@ -29,6 +44,14 @@ class Register extends React.Component {
         <fieldset>
           {/* Form Name */}
           <h2>Register</h2>
+          {/* Error */}
+          {(() => {
+            if (this.state.error) {
+            return <div className="alert alert-danger" role="alert">
+              <span className="glyphicon glyphicon-exclamation-sign"></span> {this.state.error}
+            </div>
+            }
+          })()}
           {/* Text input*/}
           <div className="form-group">
             <label className="col-md-4 control-label" htmlFor="username">Username</label>  

@@ -4,6 +4,10 @@ import React from 'react';
 import LogoNav from '../LogoNav.jsx';
 
 class Login extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {};
+  }
   handleSubmit (e) {
     e.preventDefault();
     let username = React.findDOMNode(this.refs.username).value.trim();
@@ -19,7 +23,9 @@ class Login extends React.Component {
         localStore.set('loggedin', true);
         window.location.pathname = '/';
       }
-    });
+    }).catch(function (response) {
+      this.setState({ error: 'Incorrect Username or Password.' });
+    }.bind(this));
 
   }
   render () {
@@ -31,6 +37,14 @@ class Login extends React.Component {
         <fieldset>
           {/* Form Name */}
           <h2>Login</h2>
+          {/* Error */}
+          {(() => {
+            if (this.state.error) {
+            return <div className="alert alert-danger" role="alert">
+              <span className="glyphicon glyphicon-exclamation-sign"></span> {this.state.error}
+            </div>
+            }
+          })()}
           {/* Text input*/}
           <div className="form-group">
             <label className="col-md-4 control-label" htmlFor="username">Username</label>  

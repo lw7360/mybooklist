@@ -1,5 +1,7 @@
+import bcrypt from 'bcryptjs';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import database from './lib/database.js';
 import googlebooks from './lib/googlebooks.js';
 import express from 'express';
 import http from 'http';
@@ -9,7 +11,6 @@ import register from './lib/register.js';
 import cookieSession from 'cookie-session';
 import { Strategy } from 'passport-local';
 const LocalStrategy = Strategy;
-import uuid from 'node-uuid';
 
 const app = express();
 app.locals.settings['x-powered-by'] = false;
@@ -57,17 +58,31 @@ app.get('/list/*', function (req, res) {
 // Passport config
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    const id = uuid.v4();
-    return done(null, { id });
+    let users = database.users;
+    users.findOne({ username }, function (err, doc) {
+      if (err) { return done(err); }
+      if (!doc) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      let hash = doc.password;
+      if (!bcrypt.compareSync(password, hash)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, doc);
+    });
   }
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  done(null, {id});
+  let users = database.users;
+  users.findOne({ _id: id }, function (err, doc) {
+    console.log(doc);
+    done(null, doc);
+  });
 });
 
 // Login
@@ -98,9 +113,37 @@ app.post('/logout', function (req, res) {
 // User Registration
 app.post('/register', function (req, res) {
   register(req.body).then(function (results) {
-    res.send(results);
+    let users = database.users;
+    users.findOne({ username: results.username }, function (err, doc) {
+      if (!err && !doc) {
+        users.findOne({ email: results.email }, function (err, doc) {
+          if (!err && !doc) {
+            users.insert(results, function (err, doc) {
+              if (!err) {
+                res.send({ error: false });
+              } else {
+                res.send({ error: true, message: 'Unknown error.' });
+              }
+            });
+          } else {
+            res.send({
+              error: true,
+              message: 'Someone is already using that email address.',
+            });
+          }
+        });
+      } else {
+        res.send({
+          error: true,
+          message: 'Someone is already using that username.',
+        });
+      }
+    });
   }).error(function (error) {
-    res.send(error);
+    res.send({
+      error: true,
+      message: error.details[0].message
+    });
   });
 });
 
