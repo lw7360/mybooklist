@@ -1,4 +1,5 @@
 import axios from 'axios';
+import localStore from 'store';
 import React from 'react';
 import LogoNav from '../LogoNav.jsx';
 
@@ -8,8 +9,11 @@ class Register extends React.Component {
     this.state = {};
   }
   handleSubmit (e) {
-    this.setState({});
     e.preventDefault();
+    if (this.state.inprogress) {
+      return;
+    }
+    this.setState({inprogress: true});
     let username = React.findDOMNode(this.refs.username).value.trim();
     let email = React.findDOMNode(this.refs.email).value.trim();
     let password = React.findDOMNode(this.refs.password).value;
@@ -24,16 +28,16 @@ class Register extends React.Component {
       console.log(response);
       let data = response.data;
       if (data.error) {
-        this.setState({error: data.message});
+        this.setState({error: data.message, inprogress: false});
       } else {
         axios.post('/login', params).then(function (response) {
           if (response.data) {
             localStore.set('loggedin', true);
+            window.location.pathname = '/';
           }
         });
       }
     }.bind(this));
-
   }
   render () {
     this.props.done();
