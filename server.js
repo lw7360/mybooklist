@@ -80,7 +80,6 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(id, done) {
   let users = database.users;
   users.findOne({ _id: id }, function (err, doc) {
-    console.log(doc);
     done(null, doc);
   });
 });
@@ -120,7 +119,19 @@ app.post('/register', function (req, res) {
           if (!err && !doc) {
             users.insert(results, function (err, doc) {
               if (!err) {
-                res.send({ error: false });
+                let lists = database.booklist;
+                lists.insert({
+                  id: doc._id,
+                  currentlyReading: [],
+                  wantToRead: [],
+                  completed: []
+                }, function (err, doc) {
+                  if (!err) {
+                    res.send({ error: false });
+                  } else {
+                    res.send({ error: true, message: 'Unknown error.' });
+                  }
+                });
               } else {
                 res.send({ error: true, message: 'Unknown error.' });
               }
@@ -162,20 +173,72 @@ app.get('/api/v1/book', function (req, res) {
   });
 });
 
+app.get('/api/v1/list', function (req, res) {
+  if (req.user) {
+    let id = req.user._id;
+    let lists = database.booklist;
+    lists.findOne({ id }, function (err, doc) {
+      res.send(doc);
+    });
+  } else {
+    res.end();
+  }
+});
+
+app.post('/api/v1/list', function (req, res) {
+  let validLists = ['currentlyReading', 'wantToRead', 'completed'];
+  if (validLists.indexOf(req.body.list) >= 0 && req.user && req.body.bookId) {
+    let id = req.user._id;
+    let lists = database.booklist;
+    let update = {};
+    update[req.body.list] = req.body.bookId;
+    lists.update({ id }, { $push: update }, {}, function (err, numReplaced, newDoc) {
+      if (!err) {
+        res.send(true);
+      } else {
+        res.end();
+      }
+    });
+  } else {
+    res.end();
+  }
+});
+
+app.delete('/api/v1/list', function (req, res) {
+  let validLists = ['currentlyReading', 'wantToRead', 'completed'];
+  if (validLists.indexOf(req.query.list) >= 0 && req.user && req.query.bookId) {
+    let id = req.user._id;
+    let lists = database.booklist;
+    let rmv = {};
+    rmv[req.query.list] = req.query.bookId;
+    lists.update({ id }, { $pull: rmv }, function (err, numReplaced, newDoc) {
+      if (!err) {
+        res.send(true);
+      } else {
+        res.end();
+      }
+    });
+  } else {
+    res.end();
+  }
+});
+
 app.get('/api/v1/search', function (req, res) {
   books.list(req.query.title).then((results) => {
     let bookData = results[0].items;
     let resultData = [];
 
     for (let i = 0; i < bookData.length; i++) {
-      let curBook = bookData[i];
-      let resData = {
-        id: curBook.id,
-        title: curBook.volumeInfo.title,
-        authors: curBook.volumeInfo.authors,
-        publishedDate: curBook.volumeInfo.publishedDate.split('-').shift(),
-      };
-      resultData.push(resData);
+      try {
+        let curBook = bookData[i];
+        let resData = {
+          id: curBook.id,
+          title: curBook.volumeInfo.title,
+          authors: curBook.volumeInfo.authors,
+          publishedDate: curBook.volumeInfo.publishedDate.split('-').shift(),
+        };
+        resultData.push(resData);
+      } catch (e) {}
     }
     
     res.send(resultData);

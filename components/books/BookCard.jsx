@@ -64,7 +64,7 @@ class BookCard extends React.Component {
               options={options}
               initialAnimate={true}
               containerClassName={'bookRating pull-left'} />
-            {this.props.loggedin ? <ButtonGroup /> : <div><a href='/register'>Register</a>/<a href='/login'>login</a> to add to your list.</div>}
+            {this.props.loggedin ? <ButtonGroup id={this.props.id}/> : <div><a href='/register'>Register</a>/<a href='/login'>login</a> to add to your list.</div>}
             <br />
             <br />
             <br />

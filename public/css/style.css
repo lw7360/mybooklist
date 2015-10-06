@@ -35,6 +35,10 @@ a {
   font-weight: 700;
 }
 
+.disabled {
+  cursor: default !important;
+}
+
 /* LogoNav */
 .rightNav {
   padding-top: 22px;

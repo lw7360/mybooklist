@@ -41,6 +41,7 @@
     "googleapis": "^2.1.5",
     "immutable": "^3.7.5",
     "joi": "^6.8.1",
+    "lodash": "^3.10.1",
     "nedb": "^1.2.1",
     "nprogress": "^0.2.0",
     "passport": "^0.3.0",
