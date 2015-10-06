@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import Promise from 'bluebird';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import database from './lib/database.js';
@@ -98,7 +99,9 @@ app.get('/login', function (req, res) {
 
 app.get('/user', function (req, res) {
   if (req.user) { // logged in
-    res.send(true);
+    res.send({
+      username: req.user.username,
+    });
   } else { // not logged in
     res.send(false);
   }
@@ -171,6 +174,22 @@ app.get('/api/v1/book', function (req, res) {
   }).error((error) => {
     res.end();
   });
+});
+
+app.get('/api/v1/titles', function (req, res) {
+  let promises = [];
+  let results = [];
+  if (!req.query.ids) {
+    return res.send([]);
+  }
+  req.query.ids.forEach(function (id, index) {
+    promises.push(books.get(id).then((book) => {
+      results[index] = book[0].volumeInfo.title;
+    }));
+  });
+  Promise.all(promises).then(function() {
+    res.send(results);
+  })
 });
 
 app.get('/api/v1/list', function (req, res) {
