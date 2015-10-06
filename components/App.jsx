@@ -3,6 +3,7 @@ import React from 'react';
 import InternalNav from 'react-internal-nav';
 import Home from './home/Home.jsx';
 import Book from './books/Book.jsx';
+import List from './list/List.jsx';
 import Login from './login/Login.jsx';
 import Register from './register/Register.jsx';
 import Search from './search/Search.jsx';
@@ -16,9 +17,13 @@ class App extends React.Component {
       store.dispatch({type: 'URL', pathname: window.location.pathname});
     });
     store.subscribe(() => {
-      if (store.getState().routing.get('LASTACTION') === 'URL') {
+      let state = store.getState();
+      if (state.routing.get('LASTACTION') === 'URL') {
         NProgress.start();
         this.forceUpdate();
+      }
+      if (state.routing.get('URL') === window.location.pathname) {
+        NProgress.done();
       }
     });
 
@@ -78,8 +83,12 @@ class App extends React.Component {
       return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
         <Register store={store} done={done} />
       </InternalNav>
+    } else if (curPath.startsWith('/list')) {
+      return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
+        <List store={store} done={done} />
+      </InternalNav>
     } else { // Should probably 404
-      return <div>404</div>
+      return <h1>404</h1>
     }
   }
 }
