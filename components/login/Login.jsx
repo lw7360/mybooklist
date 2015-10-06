@@ -8,6 +8,9 @@ class Login extends React.Component {
     super(props);
     this.state = {};
   }
+  componentWillMount () {
+    document.title = 'Login';
+  }
   handleSubmit (e) {
     e.preventDefault();
     let username = React.findDOMNode(this.refs.username).value.trim();

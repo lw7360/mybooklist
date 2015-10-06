@@ -8,6 +8,9 @@ class Register extends React.Component {
     super(props);
     this.state = {};
   }
+  componentWillMount () {
+    document.title = 'Register';
+  }
   handleSubmit (e) {
     e.preventDefault();
     if (this.state.inprogress) {

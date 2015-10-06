@@ -31,13 +31,14 @@ class Search extends React.Component {
   }
   componentWillMount() {
     const query = decodeURI(window.location.pathname.split('/')[2] || '');
+    document.title = 'Search Books';
     if (query) {
       this.setState({value: query});
       this.performSearch(query);
-  } else {
-      this.setState({});
-      this.props.done();
-  }
+    } else {
+        this.setState({});
+        this.props.done();
+    }
   }
   performSearch (query) {
     let params = { title: query };
