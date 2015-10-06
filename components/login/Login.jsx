@@ -23,7 +23,7 @@ class Login extends React.Component {
 
     axios.post('/login', params).then(function (response) {
       if (response.data) {
-        localStore.set('loggedin', true);
+        localStore.set('loggedin', username);
         window.location.pathname = '/';
       }
     }).catch(function (response) {

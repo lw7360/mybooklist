@@ -8,7 +8,11 @@ import StickyFooter from '../StickyFooter.jsx';
 class List extends React.Component {
   componentWillMount () {
     document.title = 'My List';
-    axios.get('/api/v1/list').then((response) => {
+    axios.get('/api/v1/list', {
+      params: {
+        username: this.props.username
+      }
+    }).then((response) => {
       let { currentlyReading, wantToRead, completed } = (response.data);
       let titles = {};
       let getTitles = [];
@@ -70,6 +74,8 @@ class List extends React.Component {
       <div className="container">
         <LogoNav />
         <div className='animated fadeIn'>
+          <h2>{this.props.username + "'s Lists"}</h2>
+          <hr />
           <ListView listName='Currently Reading' titles={currentlyReading.titles} bookIds={currentlyReading.bookIds} />
           <ListView listName='Want To Read' titles={wantToRead.titles} bookIds={wantToRead.bookIds} />
           <ListView listName='Completed' titles={completed.titles} bookIds={completed.bookIds} />

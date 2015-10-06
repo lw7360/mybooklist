@@ -29,7 +29,7 @@ class App extends React.Component {
 
     let loggedin = localStore.get('loggedin');
     if (typeof loggedin === 'undefined') {
-      this.setState({ loggedin: 'unsure' });
+      this.setState({ loggedin });
       axios.get('/user').then(function (response) {
         localStore.set('loggedin', response.data);
         this.setState({ loggedin: response.data });
@@ -52,7 +52,7 @@ class App extends React.Component {
     store.dispatch({type: 'URL', pathname: window.location.pathname});
   }
   render () {
-    if (this.state.loggedin === 'unsure') {
+    if (typeof this.state.loggedin === 'undefined') {
       return <div></div>
     }
     let done = () => NProgress.done();
@@ -84,8 +84,9 @@ class App extends React.Component {
         <Register store={store} done={done} />
       </InternalNav>
     } else if (curPath.startsWith('/list')) {
+      const username = window.location.pathname.split('/').pop();
       return <InternalNav onInternalNav={this.onInternalNav.bind(this)}>
-        <List store={store} done={done} />
+        <List username={username} store={store} done={done} />
       </InternalNav>
     } else { // Should probably 404
       return <h1>404</h1>

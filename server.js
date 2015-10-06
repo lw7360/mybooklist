@@ -46,7 +46,7 @@ app.get('/books/*', function (req, res) {
 
 app.get('/list', function (req, res) {
   if (req.user) {
-    res.sendFile(__dirname + '/public/index.html');
+    res.redirect('/list/' + req.user.username);
   } else {
     res.redirect('/login');
   }
@@ -198,6 +198,19 @@ app.get('/api/v1/list', function (req, res) {
     let lists = database.booklist;
     lists.findOne({ id }, function (err, doc) {
       res.send(doc);
+    });
+  } else if (req.query.username) {
+    let username = req.query.username;
+    let users = database.users;
+    users.findOne({ username }, function (err, doc) {
+      if (err || !doc) {
+        return res.end();
+      }
+      let id = doc._id;
+      let lists = database.booklist;
+      lists.findOne({ id }, function (err, doc) {
+        res.send(doc);
+      });
     });
   } else {
     res.end();

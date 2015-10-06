@@ -25,7 +25,7 @@ class LogoNav extends React.Component {
         </div>
         <div className="col-sm-8">
           <div className="rightNav text-right">
-            <a href="/search">Search</a> | <a href="/list">My List</a> | <a href="/logout" onClick={this.logout}>Logout</a>
+            <a href="/search">Search</a> | <a href={'/list/' + loggedin}>My List</a> | <a href="/logout" onClick={this.logout}>Logout</a>
           </div>
         </div>
       </div>

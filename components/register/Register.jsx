@@ -35,7 +35,7 @@ class Register extends React.Component {
       } else {
         axios.post('/login', params).then(function (response) {
           if (response.data) {
-            localStore.set('loggedin', true);
+            localStore.set('loggedin', username);
             window.location.pathname = '/';
           }
         });

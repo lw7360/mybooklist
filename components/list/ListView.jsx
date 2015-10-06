@@ -6,7 +6,7 @@ class ListView extends React.Component {
 
     if (!bookIds.length) {
       return <div>
-        <h2>{listName}</h2>
+        <h3>{listName}</h3>
         ...
       </div>
     }
