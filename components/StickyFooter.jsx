@@ -5,7 +5,7 @@ class StickyFooter extends React.Component {
     return  <footer className="footer">
       <div className="container">
         <p className="text-muted">
-          Made with <a href='http://larrywu.com'>code</a>.
+          Made with <a href='https://github.com/lw7360/mybooklist'>code</a>.
         </p>
       </div>
     </footer>
